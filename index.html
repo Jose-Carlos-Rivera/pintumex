@@ -223,7 +223,7 @@
             pintumex.com.mx
         </a>
 
-        <!-- Quick info + inline AI button -->
+        <!-- Quick info stats -->
         <div class="grid grid-cols-3 gap-3 mb-3">
             <div class="bg-pm-blue/5 rounded-xl py-3 px-2 text-center">
                 <p class="font-black text-xl text-pm-blue">50+</p>
@@ -233,23 +233,22 @@
                 <p class="font-black text-xl text-pm-green">350+</p>
                 <p class="text-pm-green/40 text-[10px] uppercase tracking-wider font-semibold">Tiendas</p>
             </div>
-            <!-- AI button inline -->
-            <button onclick="openAI()" class="ai-btn-inline relative bg-gradient-to-br from-pm-blue to-pm-green rounded-xl py-3 px-2 text-center text-white cursor-pointer border-none flex flex-col items-center justify-center gap-1 shadow-lg shadow-purple-500/15 hover:scale-[1.03] transition-transform">
-                <span class="ai-dot-inline w-2 h-2 rounded-full bg-green-400 absolute top-2 right-2" style="box-shadow: 0 0 6px #4ADE80;"></span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                    <line x1="12" y1="19" x2="12" y2="23"/>
-                    <line x1="8" y1="23" x2="16" y2="23"/>
-                </svg>
-                <p class="font-bold text-[10px] uppercase tracking-wider leading-tight">Asesor IA</p>
-            </button>
-        </div>
-        <div class="grid grid-cols-1 gap-3 mb-8">
             <div class="bg-pm-blue/5 rounded-xl py-3 px-2 text-center">
-                <p class="font-black text-xl text-pm-blue">28 <span class="font-semibold text-sm text-pm-blue/50">Estados</span></p>
+                <p class="font-black text-xl text-pm-blue">28</p>
+                <p class="text-pm-blue/40 text-[10px] uppercase tracking-wider font-semibold">Estados</p>
             </div>
         </div>
+        <!-- AI button full-width -->
+        <button onclick="openAI()" class="ai-btn-inline relative w-full bg-gradient-to-r from-pm-blue to-pm-green rounded-xl py-3 px-4 text-center text-white cursor-pointer border-none flex items-center justify-center gap-3 shadow-lg shadow-purple-500/15 hover:scale-[1.02] transition-transform mb-8">
+            <span class="ai-dot-inline w-2.5 h-2.5 rounded-full bg-green-400 absolute top-2.5 right-3" style="box-shadow: 0 0 6px #4ADE80;"></span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" y1="19" x2="12" y2="23"/>
+                <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+            <p class="font-bold text-sm uppercase tracking-wider leading-tight">Asesor IA</p>
+        </button>
 
         <!-- Footer -->
         <p class="text-pm-blue/25 text-xs font-medium">Pintumex — Desde 1971 — Puebla, México</p>
