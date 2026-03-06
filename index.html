@@ -275,9 +275,20 @@
 
         function closeAI() {
             const widget = document.querySelector('elevenlabs-convai');
-            widget.classList.remove('el-active');
-            document.getElementById('aiBtnWrapper').style.display = '';
-            document.getElementById('aiClose').classList.remove('visible');
+            // End the active conversation by clicking the widget's internal button
+            try {
+                const sr = widget.shadowRoot;
+                if (sr) {
+                    const btn = sr.querySelector('button');
+                    if (btn) btn.click();
+                }
+            } catch(e) {}
+            // Hide widget and reset UI
+            setTimeout(() => {
+                widget.classList.remove('el-active');
+                document.getElementById('aiBtnWrapper').style.display = '';
+                document.getElementById('aiClose').classList.remove('visible');
+            }, 300);
         }
     </script>
 
