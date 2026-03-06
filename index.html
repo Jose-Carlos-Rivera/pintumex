@@ -36,16 +36,117 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
-        .paint-drip {
-            animation: drip 3s ease-in-out infinite;
+
+        /* Hide default ElevenLabs widget */
+        elevenlabs-convai {
+            position: fixed !important;
+            bottom: -9999px !important;
+            right: -9999px !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
         }
-        @keyframes drip {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(4px); }
+        elevenlabs-convai.el-active {
+            bottom: 80px !important;
+            right: 16px !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
+            z-index: 9999 !important;
+        }
+
+        /* Custom AI button */
+        .ai-btn-wrapper {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9998;
+        }
+        .ai-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #462D8C 0%, #00A651 100%);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 14px 24px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 32px rgba(70, 45, 140, 0.35), 0 4px 12px rgba(0, 166, 81, 0.2);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .ai-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 12px 40px rgba(70, 45, 140, 0.45), 0 6px 16px rgba(0, 166, 81, 0.3);
+        }
+        .ai-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* Pulse ring animation */
+        .ai-pulse {
+            position: absolute;
+            inset: -4px;
+            border-radius: 50px;
+            border: 2px solid rgba(0, 166, 81, 0.4);
+            animation: ai-ring 2s ease-out infinite;
+        }
+        .ai-pulse-2 {
+            animation-delay: 1s;
+        }
+        @keyframes ai-ring {
+            0% { transform: scale(1); opacity: 0.6; }
+            100% { transform: scale(1.15); opacity: 0; }
+        }
+
+        /* Glow dot */
+        .ai-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4ADE80;
+            box-shadow: 0 0 8px #4ADE80, 0 0 16px rgba(74, 222, 128, 0.4);
+            animation: ai-glow 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes ai-glow {
+            0% { box-shadow: 0 0 8px #4ADE80, 0 0 16px rgba(74, 222, 128, 0.4); }
+            100% { box-shadow: 0 0 12px #4ADE80, 0 0 24px rgba(74, 222, 128, 0.6); }
+        }
+
+        /* Close button when widget is active */
+        .ai-close {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 10000;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #462D8C;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(70, 45, 140, 0.3);
+            transition: all 0.2s;
+        }
+        .ai-close:hover {
+            background: #5a3bad;
+            transform: scale(1.1);
+        }
+        .ai-close.visible {
+            display: flex;
         }
     </style>
 </head>
-<body class="bg-white min-h-screen flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden">
+<body class="bg-white min-h-screen flex flex-col items-center justify-center px-4 py-12 pb-28 relative overflow-hidden">
 
     <!-- Subtle background decoration -->
     <div class="absolute inset-0 pointer-events-none">
@@ -132,9 +233,54 @@
         <p class="text-pm-blue/25 text-xs font-medium">Pintumex — Desde 1971 — Puebla, México</p>
     </div>
 
-    <!-- ElevenLabs Chatbot -->
+    <!-- Custom AI Assistant Button -->
+    <div class="ai-btn-wrapper" id="aiBtnWrapper">
+        <button onclick="openAI()" class="ai-btn">
+            <span class="ai-pulse"></span>
+            <span class="ai-pulse ai-pulse-2"></span>
+            <span class="ai-dot"></span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" y1="19" x2="12" y2="23"/>
+                <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+            Asesor IA 24/7
+        </button>
+    </div>
+
+    <!-- Close button for widget -->
+    <button class="ai-close" id="aiClose" onclick="closeAI()">✕</button>
+
+    <!-- ElevenLabs Chatbot (hidden by default) -->
     <elevenlabs-convai agent-id="agent_7401kk24sw5fertah8w9tzz5vdnk"></elevenlabs-convai>
     <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+
+    <script>
+        function openAI() {
+            const widget = document.querySelector('elevenlabs-convai');
+            widget.classList.add('el-active');
+            document.getElementById('aiBtnWrapper').style.display = 'none';
+            document.getElementById('aiClose').classList.add('visible');
+            // Try to auto-click the start call button inside the widget
+            setTimeout(() => {
+                try {
+                    const sr = widget.shadowRoot;
+                    if (sr) {
+                        const btn = sr.querySelector('button');
+                        if (btn) btn.click();
+                    }
+                } catch(e) {}
+            }, 600);
+        }
+
+        function closeAI() {
+            const widget = document.querySelector('elevenlabs-convai');
+            widget.classList.remove('el-active');
+            document.getElementById('aiBtnWrapper').style.display = '';
+            document.getElementById('aiClose').classList.remove('visible');
+        }
+    </script>
 
 </body>
 </html>
